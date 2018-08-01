@@ -5,16 +5,40 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RODO", "RODO\RODO.csproj", "{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "OfficeAddInSetup", "OfficeAddInSetup\OfficeAddInSetup.vdproj", "{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Debug|x64.ActiveCfg = Debug|x64
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Debug|x64.Build.0 = Debug|x64
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Debug|x86.ActiveCfg = Debug|x86
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Debug|x86.Build.0 = Debug|x86
 		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Release|x64.ActiveCfg = Release|x64
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Release|x64.Build.0 = Release|x64
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Release|x86.ActiveCfg = Release|x86
+		{954AA3BC-E6F3-4AE1-8A2F-B5300867CA09}.Release|x86.Build.0 = Release|x86
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Debug|Any CPU.ActiveCfg = Debug
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Debug|x64.ActiveCfg = Debug
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Debug|x64.Build.0 = Debug
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Debug|x86.ActiveCfg = Debug
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Debug|x86.Build.0 = Debug
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Release|Any CPU.ActiveCfg = Release
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Release|x64.ActiveCfg = Release
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Release|x64.Build.0 = Release
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Release|x86.ActiveCfg = Release
+		{B89BE239-EB9F-4F89-A05C-E5B8D4FED3A3}.Release|x86.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

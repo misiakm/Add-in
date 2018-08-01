@@ -18,7 +18,7 @@ using System.Security;
 //Ustawienie wartości false dla elementu ComVisible sprawia, że typy w tym zestawie nie będą widoczne 
 // dla składników COM. Jeśli potrzebny jest dostęp do typu w tym zestawie z 
 // COM, ustaw wartość true dla atrybutu ComVisible tego typu.
-[assembly: ComVisible(false)]
+[assembly: ComVisible(true)]
 
 // Następujący identyfikator GUID jest identyfikatorem biblioteki typów w przypadku udostępnienia tego projektu w modelu COM
 [assembly: Guid("5ec432a7-e8dd-4c60-88f0-a379375d3e53")]
