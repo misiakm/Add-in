@@ -220,6 +220,11 @@
     <Compile Include="Logika\Szyfrowanie.cs" />
     <Compile Include="Logika\Uzytkownicy.cs" />
     <Compile Include="Logika\ChangeRibbon.cs" />
+    <Compile Include="Migrations\201808010853079_StworzenieBazy.cs" />
+    <Compile Include="Migrations\201808010853079_StworzenieBazy.Designer.cs">
+      <DependentUpon>201808010853079_StworzenieBazy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arkusz.cs" />
     <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Odpowiedz.cs" />
@@ -227,6 +232,7 @@
     <Compile Include="Models\Pomoc\ArkuszePomoc.cs" />
     <Compile Include="Models\Pomoc\LogiPomoc.cs" />
     <Compile Include="Models\RodoDbContext.cs" />
+    <Compile Include="Models\ZbieramyDaneAdmin.cs" />
     <Compile Include="Models\ZrodloAkcji.cs" />
     <Compile Include="Models\TypAkcji.cs" />
     <Compile Include="Models\Uzytkownik.cs" />
@@ -273,6 +279,9 @@
     <Compile Include="Wstazka.Designer.cs">
       <DependentUpon>Wstazka.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Migrations\201808010853079_StworzenieBazy.resx">
+      <DependentUpon>201808010853079_StworzenieBazy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

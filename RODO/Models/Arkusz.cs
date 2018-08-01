@@ -16,12 +16,15 @@ namespace RODO.Models
         public int ID { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string NazwaArkusza { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Klucz { get; set; }
+
+        [Column(TypeName = "VARCHAR(MAX)")]
+        public string BiezacaNazwaArkusz { get; set; }
 
         [Required]
         public int Plik { get; set; }
@@ -36,12 +39,7 @@ namespace RODO.Models
         [DefaultValue(false)]
         public bool ZbieramyDane { get; set; }
 
-        /// <summary>
-        /// Informacja od Admina
-        /// </summary>
-        [Required]
-        [DefaultValue(false)]
-        public bool ZbieramyDaneAdmin { get; set; }
+        public int ZbieramyDaneAdmin { get; set; }
 
         /// <summary>
         /// Informacja od Dodatku

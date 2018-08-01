@@ -22,16 +22,16 @@ namespace RODO.Models
         public int Arkusz { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string NazwaArkusza { get; set; }
 
         public int? Uzytkownik { get; set; }
 
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Sciezka { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string NazwaPliku { get; set; }
 
         [Required]

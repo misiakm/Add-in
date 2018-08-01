@@ -8,24 +8,23 @@ using System.Threading.Tasks;
 
 namespace RODO.Models
 {
-    public enum Rodzaje
+    public enum ZbieranieDanych
     {
-        Uzytkownik = 1,
-        Admin = 2,
-        System = 3
+        NieUstalono = 1,
+        Tak = 2,
+        Nie = 3
     }
 
-    [Table("ZrodlaAkcji")]
-    public class ZrodloAkcji
+    [Table("ZbieramyDaneAdmin")]
+    class ZbieramyDaneAdmin
     {
         [Key]
         public int ID { get; set; }
 
-        [Required]
         [Column(TypeName = "VARCHAR(MAX)")]
-        public string Nazwa { get; set; }
+        public string ZbieramyDane { get; set; }
 
-        [ForeignKey("Zrodlo")]
-        public virtual ICollection<Log> Logi { get; set; }
+        [ForeignKey("ZbieramyDaneAdmin")]
+        public ICollection<Arkusz> Arkusze { get; set; }
     }
 }

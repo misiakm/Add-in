@@ -19,11 +19,11 @@ namespace RODO.Models
         public int ID { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string NazwaKomputera { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string NazwaUzytkownika { get; set; }
 
         [Required]
@@ -31,12 +31,13 @@ namespace RODO.Models
         public bool Aktywny { get; set; }
 
 
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Imie { get; set; }
 
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Nazwisko { get; set; }
 
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Haslo { get; set; }
 
         [Required]

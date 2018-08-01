@@ -16,14 +16,18 @@ namespace RODO.Models
         public int ID { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string NazwaPliku { get; set; }
 
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Sciezka { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
+        public string BiezacaNazwaPliku { get; set; }
+
+        [Required]
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Klucz { get; set; }       
 
         /// <summary>

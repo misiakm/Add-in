@@ -16,9 +16,6 @@ using System.Threading;
 
 namespace RODO
 {
-    /// <summary>
-    /// sdfg
-    /// </summary>
     public partial class ThisAddIn
     {
         private static bool aktywny = true;

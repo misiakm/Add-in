@@ -23,7 +23,7 @@ namespace RODO.Models
         public int ID { get; set; }
 
         [Required]
-        
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Nazwa { get; set; }
 
         [ForeignKey("TypAkcji")]
