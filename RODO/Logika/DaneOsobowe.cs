@@ -1,4 +1,5 @@
 ﻿using Microsoft.Office.Interop.Excel;
+using RODO.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,29 +9,39 @@ using System.Threading.Tasks;
 
 namespace RODO.Logika
 {
-    class DaneOsobowe : Nazwy
+    static class DaneOsobowe
     {
-        internal bool CzyZbieramyDane(Worksheet sht)
+        static RodoDbContext db = new RodoDbContext();
+
+        internal static ZbieranieDanych CzyZbieramyDaneAdmin(Worksheet sht)
         {
-            string klucz = ZnajdzNazwe(sht);
+            int IdArkusza = Baza.ZnajdzIDArkusza(sht);
+            Arkusz arkusz = db.Arkusze.Find(IdArkusza);
+            return (ZbieranieDanych)arkusz.ZbieramyDaneAdmin;
+        }
+
+        internal static bool CzyZbieramyDane(Worksheet sht)
+        {
+            string klucz = Nazwy.ZnajdzNazwe(sht);
             Regex r = new Regex("DO_*");
             return r.Match(klucz).Success;
         }
 
-        internal void Zmien(bool czyZbieramyDane, Worksheet sht, bool pominOdpowiedz = false)
+        internal static void Zmien(bool czyZbieramyDane, Worksheet sht, bool pominOdpowiedz = false)
         {
-            Baza baza = new Baza();
-            string klucz = ZnajdzNazwe(sht);
-            string wartoscPoczatkowa = czyZbieramyDane ?  ZnajdzPoczatek(TypPliku.BezDanychOsobowych) : ZnajdzPoczatek(TypPliku.DaneOsobowe);
-            string wartoscKoncowa = czyZbieramyDane ? ZnajdzPoczatek(TypPliku.DaneOsobowe) : ZnajdzPoczatek(TypPliku.BezDanychOsobowych);
+            string klucz = Nazwy.ZnajdzNazwe(sht);
+            string wartoscPoczatkowa = czyZbieramyDane ?  Klucz.ZnajdzPoczatek(Klucz.TypPliku.BezDanychOsobowych) : Klucz.ZnajdzPoczatek(Klucz.TypPliku.DaneOsobowe);
+            string wartoscKoncowa = czyZbieramyDane ? Klucz.ZnajdzPoczatek(Klucz.TypPliku.DaneOsobowe) : Klucz.ZnajdzPoczatek(Klucz.TypPliku.BezDanychOsobowych);
             string NowyKlucz = klucz.Replace($"{wartoscPoczatkowa}_", $"{wartoscKoncowa}_");
             if (!pominOdpowiedz)
             {
-                baza.DodajOdpowiedz(sht, czyZbieramyDane);
+                Baza.DodajOdpowiedz(sht, czyZbieramyDane);
             } 
-            baza.ZmienZbieranieDanych(sht, czyZbieramyDane, NowyKlucz);
-            ZmienNazwe(sht, NowyKlucz);
+            Baza.ZmienZbieranieDanych(sht, czyZbieramyDane, NowyKlucz);
+            Nazwy.ZmienNazwe(sht, NowyKlucz);
             ChangeRibbon.ZmienKarte(sht);
         }
+
+
     }
 }

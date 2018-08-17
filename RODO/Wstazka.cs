@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Tools.Ribbon;
 using RODO.Logika;
+using RODO.Models;
 using RODO.UserForms;
 
 namespace RODO
@@ -38,10 +39,17 @@ namespace RODO
 
         private static void ZmienStatus(bool zbieramyDane)
         {
-            DaneOsobowe dane = new DaneOsobowe();
-            dane.Zmien(zbieramyDane, Sht);
-            Informacja informacja = new Informacja(Sht);
-            informacja.Show();
+            if (DaneOsobowe.CzyZbieramyDaneAdmin(Sht) != ZbieranieDanych.NieUstalono)
+            {
+                MessageBox.Show("Nie można zmienić ustawień dla tego arkusza");
+            }
+            else
+            {
+                DaneOsobowe.Zmien(zbieramyDane, Sht);
+                Informacja informacja = new Informacja(Sht);
+                informacja.Show();
+            }
+            
         }
 
         private void button4_Click(object sender, RibbonControlEventArgs e)

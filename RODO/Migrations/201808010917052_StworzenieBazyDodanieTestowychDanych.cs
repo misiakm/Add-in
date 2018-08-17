@@ -3,7 +3,7 @@ namespace RODO.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class StworzenieBazy : DbMigration
+    public partial class StworzenieBazyDodanieTestowychDanych : DbMigration
     {
         public override void Up()
         {
@@ -25,8 +25,10 @@ namespace RODO.Migrations
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Pliki", t => t.Plik, cascadeDelete: true)
                 .ForeignKey("dbo.Uzytkownicy", t => t.Uzytkownik, cascadeDelete: true)
+                .ForeignKey("dbo.ZbieramyDaneAdmin", t => t.ZbieramyDaneAdmin, cascadeDelete: true)
                 .Index(t => t.Plik)
-                .Index(t => t.Uzytkownik);
+                .Index(t => t.Uzytkownik)
+                .Index(t => t.ZbieramyDaneAdmin);
             
             CreateTable(
                 "dbo.Logi",
@@ -115,6 +117,15 @@ namespace RODO.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
+                "dbo.ZbieramyDaneAdmin",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        ZbieramyDane = c.String(unicode: false),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
                 "dbo.ZrodlaAkcji",
                 c => new
                     {
@@ -123,11 +134,13 @@ namespace RODO.Migrations
                     })
                 .PrimaryKey(t => t.ID);
             
+            
         }
         
         public override void Down()
         {
             DropForeignKey("dbo.Logi", "Zrodlo", "dbo.ZrodlaAkcji");
+            DropForeignKey("dbo.Arkusze", "ZbieramyDaneAdmin", "dbo.ZbieramyDaneAdmin");
             DropForeignKey("dbo.Odpowiedzi", "Uzytkownik", "dbo.Uzytkownicy");
             DropForeignKey("dbo.Logi", "Uzytkownik", "dbo.Uzytkownicy");
             DropForeignKey("dbo.Pliki", "KtoDodal", "dbo.Uzytkownicy");
@@ -143,9 +156,11 @@ namespace RODO.Migrations
             DropIndex("dbo.Logi", new[] { "Zrodlo" });
             DropIndex("dbo.Logi", new[] { "Arkusz" });
             DropIndex("dbo.Logi", new[] { "Uzytkownik" });
+            DropIndex("dbo.Arkusze", new[] { "ZbieramyDaneAdmin" });
             DropIndex("dbo.Arkusze", new[] { "Uzytkownik" });
             DropIndex("dbo.Arkusze", new[] { "Plik" });
             DropTable("dbo.ZrodlaAkcji");
+            DropTable("dbo.ZbieramyDaneAdmin");
             DropTable("dbo.Uzytkownicy");
             DropTable("dbo.TypyAkcji");
             DropTable("dbo.Pliki");

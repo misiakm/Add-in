@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RODO.Logika
 {
-    public class Klucz
+    public static class Klucz
     {
         public enum TypPliku
         {
@@ -18,7 +18,7 @@ namespace RODO.Logika
         /// <summary>
         /// Generuje kod do arkusza i pliku
         /// </summary>
-        protected static string GenerujKod(TypPliku typ)
+        public static string GenerujKod(TypPliku typ)
         {
             const string valid = "abcdefghijklmnopqrstuvwxyzABDEFGHIJKLMNOPQRTUVWXYZ1234567890";
             StringBuilder res = new StringBuilder();
@@ -31,7 +31,7 @@ namespace RODO.Logika
             return $"{ZnajdzPoczatek(typ)}_{res.ToString()}_{DateTime.Now.ToString("yyyyMMddHHmmss")}";
         }
 
-        protected static string ZnajdzPoczatek(TypPliku typ)
+        public static string ZnajdzPoczatek(TypPliku typ)
         {
             switch (typ)
             {

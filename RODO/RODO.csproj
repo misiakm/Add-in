@@ -89,7 +89,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
     <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
@@ -146,6 +146,9 @@
     </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -220,9 +223,13 @@
     <Compile Include="Logika\Szyfrowanie.cs" />
     <Compile Include="Logika\Uzytkownicy.cs" />
     <Compile Include="Logika\ChangeRibbon.cs" />
-    <Compile Include="Migrations\201808010853079_StworzenieBazy.cs" />
-    <Compile Include="Migrations\201808010853079_StworzenieBazy.Designer.cs">
-      <DependentUpon>201808010853079_StworzenieBazy.cs</DependentUpon>
+    <Compile Include="Migrations\201808010917052_StworzenieBazyDodanieTestowychDanych.cs" />
+    <Compile Include="Migrations\201808010917052_StworzenieBazyDodanieTestowychDanych.Designer.cs">
+      <DependentUpon>201808010917052_StworzenieBazyDodanieTestowychDanych.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201808011006342_PoprawLiterowke.cs" />
+    <Compile Include="Migrations\201808011006342_PoprawLiterowke.Designer.cs">
+      <DependentUpon>201808011006342_PoprawLiterowke.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Arkusz.cs" />
@@ -279,8 +286,11 @@
     <Compile Include="Wstazka.Designer.cs">
       <DependentUpon>Wstazka.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Migrations\201808010853079_StworzenieBazy.resx">
-      <DependentUpon>201808010853079_StworzenieBazy.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201808010917052_StworzenieBazyDodanieTestowychDanych.resx">
+      <DependentUpon>201808010917052_StworzenieBazyDodanieTestowychDanych.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808011006342_PoprawLiterowke.resx">
+      <DependentUpon>201808011006342_PoprawLiterowke.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

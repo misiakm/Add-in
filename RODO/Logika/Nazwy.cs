@@ -8,13 +8,13 @@ using Microsoft.Office.Interop.Excel;
 
 namespace RODO.Logika
 {
-    public class Nazwy : Klucz
+    public static class Nazwy
     {       
 
         /// <summary>
         /// Sprawdza czy w danym skoroszycie jest już przypisana jakaś nazwa
         /// </summary>
-        internal bool CzyJestWPliku(Workbook wbk)
+        internal static bool CzyJestWPliku(Workbook wbk)
         {
             return SprawdzCzyIstnieje(wbk, NazwaLokalna.Plik);
         }
@@ -22,48 +22,46 @@ namespace RODO.Logika
         /// <summary>
         /// Sprawdza czy w danym arkuszu jest już przypisana jakaś nazwa
         /// </summary>
-        internal bool CzyJestWArkuszu(Worksheet sht)
+        internal static bool CzyJestWArkuszu(Worksheet sht)
         {
             return SprawdzCzyIstnieje(sht, NazwaLokalna.Arkusz);
         }
 
-        internal void Dodaj(Workbook Wbk)
+        internal static void Dodaj(Workbook Wbk)
         {
-            Baza baza = new Baza();
-            Wbk.Names.Add(ZnajdzNazweLokalna(NazwaLokalna.Plik), GenerujKod(TypPliku.Skoroszyt), false);
-            baza.DodajPlik(Wbk);
+            Wbk.Names.Add(ZnajdzNazweLokalna(NazwaLokalna.Plik), Klucz.GenerujKod(Klucz.TypPliku.Skoroszyt), false);
+            Baza.DodajPlik(Wbk);
         }
 
-        internal void Dodaj(Worksheet Sht, bool daneOsobowe)
+        internal static void Dodaj(Worksheet Sht, bool daneOsobowe)
         {
-            Baza baza = new Baza();
-            Sht.Names.Add(ZnajdzNazweLokalna(NazwaLokalna.Arkusz), GenerujKod(daneOsobowe ? TypPliku.DaneOsobowe : TypPliku.BezDanychOsobowych));
-            baza.DodajArkusz(Sht, daneOsobowe);
+            Sht.Names.Add(ZnajdzNazweLokalna(NazwaLokalna.Arkusz), Klucz.GenerujKod(daneOsobowe ? Klucz.TypPliku.DaneOsobowe : Klucz.TypPliku.BezDanychOsobowych));
+            Baza.DodajArkusz(Sht, daneOsobowe);
         }        
 
-        protected void ZmienNazwe(Workbook wbk, string nowaNazwa)
+        public static void ZmienNazwe(Workbook wbk, string nowaNazwa)
         {
             ZmienNazwe(wbk, nowaNazwa, NazwaLokalna.Plik);
         }
 
-        protected void ZmienNazwe(Worksheet sht, string nowaNazwa)
+        public static void ZmienNazwe(Worksheet sht, string nowaNazwa)
         {
             ZmienNazwe(sht, nowaNazwa, NazwaLokalna.Arkusz);
         }
 
-        public string ZnajdzNazwe(Workbook wbk)
+        public static string ZnajdzNazwe(Workbook wbk)
         {
             return ZnajdzNazwe(wbk, NazwaLokalna.Plik);
         }
 
-        internal string ZnajdzNazwe(Worksheet sht)
+        internal static string ZnajdzNazwe(Worksheet sht)
         {
             return ZnajdzNazwe(sht, NazwaLokalna.Arkusz);
         }
 
 
         #region Wewnetrzne metody
-        private string ZnajdzNazwe(dynamic obj, NazwaLokalna nazwaLokalna)
+        private static string ZnajdzNazwe(dynamic obj, NazwaLokalna nazwaLokalna)
         {
             foreach (Name n in obj.Names)
                 if (n.NameLocal.Contains(ZnajdzNazweLokalna(nazwaLokalna)))
@@ -72,12 +70,12 @@ namespace RODO.Logika
             return null;
         }
 
-        private string ZnajdzNazweLokalna(NazwaLokalna nazwa)
+        private static string ZnajdzNazweLokalna(NazwaLokalna nazwa)
         {
             return new string[] { "ANT_Plik", "ANT_Arkusz" }[(int)nazwa];
         }
 
-        private bool SprawdzCzyIstnieje(dynamic wbk, NazwaLokalna nazwaLokalna)
+        private static bool SprawdzCzyIstnieje(dynamic wbk, NazwaLokalna nazwaLokalna)
         {
             try
             {
@@ -89,7 +87,7 @@ namespace RODO.Logika
             return false;
         }
 
-        private void ZmienNazwe(dynamic obj, string nowaNazwa, NazwaLokalna nazwaLokalna)
+        private static void ZmienNazwe(dynamic obj, string nowaNazwa, NazwaLokalna nazwaLokalna)
         {
             foreach (Name n in obj.Names)
                 if (n.NameLocal.Contains(ZnajdzNazweLokalna(nazwaLokalna)))

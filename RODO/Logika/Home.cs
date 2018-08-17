@@ -41,27 +41,27 @@ namespace RODO.Logika
             return false;
         }
 
+        
+
         internal void DodajPlikiIArkusze(object Sh)
         {
             bool zapisz = false;
-            Nazwy nazwy = new Nazwy();
             Excel.Worksheet Sht = (Excel.Worksheet)Sh;
             Excel.Workbook Wbk = Sht.Parent;
-            DodajPlik(nazwy, Wbk);
-            DodajArkusze(ref zapisz, nazwy, Wbk);
+            DodajPlik(Wbk);
+            DodajArkusze(ref zapisz, Wbk);
             if (zapisz)
                 Wbk.Save();
         }
 
         internal void ZapiszLogi(Excel.Workbook wbk)
         {
-            Baza baza = new Baza();
-            Nazwy nazwy = new Nazwy();
-            baza.DodajLogi(logi.Where(x => x.ZbieramyDane == true && x.KluczPliku == nazwy.ZnajdzNazwe(wbk)).ToList());
-            foreach (var item in logi.Where(x => x.ZbieramyDane == true && x.KluczPliku == nazwy.ZnajdzNazwe(wbk)).ToList())
+            Baza.DodajLogi(logi.Where(x => x.ZbieramyDane == true && x.KluczPliku == Nazwy.ZnajdzNazwe(wbk)).ToList());
+            foreach (var item in logi.Where(x => x.ZbieramyDane == true && x.KluczPliku == Nazwy.ZnajdzNazwe(wbk)).ToList())
             {
                 logi.Remove(item);
             }
+            Baza.UstawBiezacaNazwe(wbk);
         }
 
         internal void UstawWstazke(Excel.Worksheet activeSheet)
@@ -71,14 +71,13 @@ namespace RODO.Logika
 
         internal void ZbierzLogSelect(object Sh)
         {
-            DaneOsobowe daneOsobowe = new DaneOsobowe();
             Excel.Worksheet sht = (Excel.Worksheet)Sh;
             Excel.Workbook wbk = (Excel.Workbook)sht.Parent;
-            if (daneOsobowe.CzyZbieramyDane(sht))
+            if (DaneOsobowe.CzyZbieramyDane(sht))
             {
-                if (CzyOstatni(daneOsobowe, sht, wbk))
+                if (CzyOstatni(sht, wbk))
                 {
-                    logi.Add(new LogiPomoc(daneOsobowe.ZnajdzNazwe(sht),sht.Name, daneOsobowe.ZnajdzNazwe(wbk), wbk.Name, wbk.Path, TypyAkcji.Select, true));
+                    logi.Add(new LogiPomoc(Nazwy.ZnajdzNazwe(sht),sht.Name, Nazwy.ZnajdzNazwe(wbk), wbk.Name, wbk.Path, TypyAkcji.Select, true));
                 }
             }
             else
@@ -92,17 +91,16 @@ namespace RODO.Logika
 
         internal void SprawdzZbieranieDanych(Excel.Workbook wb)
         {
-            DaneOsobowe dane = new DaneOsobowe();
             RodoDbContext db = new RodoDbContext();
             foreach (Excel.Worksheet sht in wb.Worksheets)
             {
-                string klucz = dane.ZnajdzNazwe(sht);
+                string klucz = Nazwy.ZnajdzNazwe(sht);
                 Arkusz arkusz = db.Arkusze.Where(x => x.Klucz == klucz).FirstOrDefault();
                 if (arkusz != null)
                 {
-                    if (dane.CzyZbieramyDane(sht) != arkusz.ZbieramyDane)
+                    if (DaneOsobowe.CzyZbieramyDane(sht) != arkusz.ZbieramyDane)
                     {
-                        dane.Zmien(arkusz.ZbieramyDane, sht, true);
+                        DaneOsobowe.Zmien(arkusz.ZbieramyDane, sht, arkusz.ZbieramyDane);
                     }
                 }                
             }
@@ -110,22 +108,21 @@ namespace RODO.Logika
 
         internal void ZbierzLogEdit(object Sh, TypyAkcji typ, string staraWartosc, string nowaWartosc)
         {
-            DaneOsobowe daneOsobowe = new DaneOsobowe();
             Excel.Worksheet sht = (Excel.Worksheet)Sh;
             Excel.Workbook wbk = (Excel.Workbook)sht.Parent;
-            if (daneOsobowe.CzyZbieramyDane(sht))
+            if (DaneOsobowe.CzyZbieramyDane(sht))
             {
-                logi.Add(new LogiPomoc(daneOsobowe.ZnajdzNazwe(sht), sht.Name, daneOsobowe.ZnajdzNazwe(wbk), wbk.Name, wbk.Path, typ, true, staraWartosc, nowaWartosc));
+                logi.Add(new LogiPomoc(Nazwy.ZnajdzNazwe(sht), sht.Name, Nazwy.ZnajdzNazwe(wbk), wbk.Name, wbk.Path, typ, true, staraWartosc, nowaWartosc));
             }
         }
 
         #region Wewnetrzne metody
 
-        private void DodajArkusze(ref bool zapisz, Nazwy nazwy, Excel.Workbook Wbk)
+        private void DodajArkusze(ref bool zapisz, Excel.Workbook Wbk)
         {
             foreach (Excel.Worksheet Arkusz in Wbk.Worksheets)
             {
-                if (!nazwy.CzyJestWArkuszu(Arkusz))
+                if (!Nazwy.CzyJestWArkuszu(Arkusz))
                 {
                     DodajArkusz(Arkusz);
                     zapisz = (Wbk.Path ?? "") != "";
@@ -141,18 +138,20 @@ namespace RODO.Logika
             czyOsobowe.ShowDialog();
         }
 
-        private void DodajPlik(Nazwy nazwy, Excel.Workbook Wbk)
+        private void DodajPlik(Excel.Workbook Wbk)
         {
-            if (!nazwy.CzyJestWPliku(Wbk))
-                nazwy.Dodaj(Wbk);
+            if (!Nazwy.CzyJestWPliku(Wbk))
+                Nazwy.Dodaj(Wbk);
+
+
         }
 
-        private static bool CzyOstatni(DaneOsobowe daneOsobowe, Excel.Worksheet sht, Excel.Workbook wbk)
+        private static bool CzyOstatni(Excel.Worksheet sht, Excel.Workbook wbk)
         {
             try
             {
                 LogiPomoc ostatni = logi.LastOrDefault();
-                return (ostatni.KluczPliku != daneOsobowe.ZnajdzNazwe(wbk) && ostatni.KluczArkusza != daneOsobowe.ZnajdzNazwe(sht)) || logi.Count == 0;
+                return (ostatni.KluczPliku != Nazwy.ZnajdzNazwe(wbk) && ostatni.KluczArkusza != Nazwy.ZnajdzNazwe(sht)) || logi.Count == 0;
             }
             catch (Exception e)
             {

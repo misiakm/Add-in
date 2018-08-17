@@ -12,7 +12,7 @@ using RODO.UserForms;
 using RODO.Models;
 using RODO.Models.Pomoc;
 using System.Threading;
-
+using Newtonsoft.Json;
 
 namespace RODO
 {
@@ -24,7 +24,9 @@ namespace RODO
 
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-
+            RodoDbContext db = new RodoDbContext();
+            var q = db.Logi.ToList();
+            var s = JsonConvert.SerializeObject(q);
             try
             {
                 if (home.CzyStop(ref aktywny))
@@ -110,6 +112,7 @@ namespace RODO
             home.DodajPlikiIArkusze(Sh);
             home.ZbierzLogSelect(Sh);
             StaraWartosc = TworzWartosc(Target);
+            home.UstawWstazke((Excel.Worksheet)Sh);
             ChangeRibbon.ZmienKarte((Excel.Worksheet)Sh);
         }
 
@@ -126,7 +129,7 @@ namespace RODO
             }
             else
             {
-                wartosc = Target.Value;
+                wartosc = (Target.Value ?? "").ToString();
             }
             return wartosc;
         }

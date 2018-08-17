@@ -36,6 +36,7 @@
         public DbSet<Odpowiedz> Odpowiedzi { get; set; }
         public DbSet<ZrodloAkcji> ZrodlaAkcji { get; set; }
         public DbSet<TypAkcji> TypyAkcji { get; set; }
+        public DbSet<ZbieramyDaneAdmin> ZbieramyDaneAdmin { get; set; }
 
 
 

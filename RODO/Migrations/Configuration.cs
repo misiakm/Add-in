@@ -14,10 +14,24 @@ namespace RODO.Migrations
 
         protected override void Seed(RODO.Models.RodoDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
+            context.ZrodlaAkcji.AddOrUpdate(x => x.ID,
+                new Models.ZrodloAkcji() { ID = 1, Nazwa = "U¿ytkownik" },
+                new Models.ZrodloAkcji() { ID = 2, Nazwa = "Admin" },
+                new Models.ZrodloAkcji() { ID = 3, Nazwa = "System" }
+                );
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data.
+            context.ZbieramyDaneAdmin.AddOrUpdate(x => x.ID,
+                new Models.ZbieramyDaneAdmin() { ID = 1, ZbieramyDane = "Domyœlne" },
+                new Models.ZbieramyDaneAdmin() { ID = 2, ZbieramyDane = "Tak" },
+                new Models.ZbieramyDaneAdmin() { ID = 3, ZbieramyDane = "Nie" }
+                );
+
+            context.TypyAkcji.AddOrUpdate(x => x.ID,
+                new Models.TypAkcji() { ID = 1, Nazwa = "Select" },
+                new Models.TypAkcji() { ID = 2, Nazwa = "Update" },
+                new Models.TypAkcji() { ID = 3, Nazwa = "Delete" },
+                new Models.TypAkcji() { ID = 4, Nazwa = "Insert" }
+                );
         }
     }
 }

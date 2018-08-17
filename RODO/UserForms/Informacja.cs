@@ -114,10 +114,9 @@ namespace RODO.UserForms
 
         public Informacja(Worksheet sht)
         {
-            DaneOsobowe dane = new DaneOsobowe();
             InitializeComponent();
             Naglowek.Text = sht.Name;
-            if (dane.CzyZbieramyDane(sht))
+            if (DaneOsobowe.CzyZbieramyDane(sht))
             {
                 pic.Image = Properties.Resources.Close__a80000_128px;
                 Napis.Text = $"{sht.Name} zawiera dane osobowe";

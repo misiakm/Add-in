@@ -13,8 +13,7 @@ namespace RODO.Logika
 
         public static void ZmienKarte(Worksheet sht)
         {
-            DaneOsobowe dane = new DaneOsobowe();
-            wstazka.TabDaneOsobowe.Visible = dane.CzyZbieramyDane(sht);
+            wstazka.TabDaneOsobowe.Visible = DaneOsobowe.CzyZbieramyDane(sht);
         }
 
     }

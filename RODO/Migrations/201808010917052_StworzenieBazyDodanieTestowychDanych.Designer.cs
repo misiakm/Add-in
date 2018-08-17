@@ -7,13 +7,13 @@ namespace RODO.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class StworzenieBazy : IMigrationMetadata
+    public sealed partial class StworzenieBazyDodanieTestowychDanych : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(StworzenieBazy));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(StworzenieBazyDodanieTestowychDanych));
         
         string IMigrationMetadata.Id
         {
-            get { return "201808010853079_StworzenieBazy"; }
+            get { return "201808010917052_StworzenieBazyDodanieTestowychDanych"; }
         }
         
         string IMigrationMetadata.Source

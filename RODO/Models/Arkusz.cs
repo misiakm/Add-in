@@ -24,7 +24,7 @@ namespace RODO.Models
         public string Klucz { get; set; }
 
         [Column(TypeName = "VARCHAR(MAX)")]
-        public string BiezacaNazwaArkusz { get; set; }
+        public string BiezacaNazwaArkusza { get; set; }
 
         [Required]
         public int Plik { get; set; }
@@ -39,6 +39,7 @@ namespace RODO.Models
         [DefaultValue(false)]
         public bool ZbieramyDane { get; set; }
 
+        [DefaultValue(1)]
         public int ZbieramyDaneAdmin { get; set; }
 
         /// <summary>

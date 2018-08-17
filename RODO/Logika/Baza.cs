@@ -10,46 +10,46 @@ using System.Threading.Tasks;
 
 namespace RODO.Logika
 {
-    class Baza : Nazwy
+    static class Baza
     {
-        RodoDbContext db = new RodoDbContext();
+        static RodoDbContext db = new RodoDbContext();
 
-        internal void DodajPlik(Workbook wbk)
+        internal static void DodajPlik(Workbook wbk)
         {
-            Nazwy nazwy = new Nazwy();
             Plik plik = new Plik
             {
-                Klucz = nazwy.ZnajdzNazwe(wbk),
+                Klucz = Nazwy.ZnajdzNazwe(wbk),
                 KtoDodal = Uzytkownicy.UzytkownikID,
                 NazwaPliku = wbk.Name,
-                Sciezka = wbk.Path                
+                Sciezka = wbk.Path,
+                BiezacaNazwaPliku = wbk.Name
             };
             db.Pliki.Add(plik);
             db.SaveChanges();
         }
 
-        internal void DodajArkusz(Worksheet sht, bool zbieramyDane)
+        internal static void DodajArkusz(Worksheet sht, bool zbieramyDane)
         {
-            Nazwy nazwy = new Nazwy();
             Arkusz arkusz = new Arkusz
             {
-                Klucz = nazwy.ZnajdzNazwe(sht),
-                Plik = ZnajdzIDPliku(sht.Parent, nazwy),
+                Klucz = Nazwy.ZnajdzNazwe(sht),
+                Plik = ZnajdzIDPliku(sht.Parent),
                 NazwaArkusza = sht.Name,
                 Uzytkownik = (int)Uzytkownicy.UzytkownikID,
-                ZbieramyDane = zbieramyDane
+                ZbieramyDane = zbieramyDane,
+                ZbieramyDaneAdmin = 1,
+                BiezacaNazwaArkusza = sht.Name
             };
             db.Arkusze.Add(arkusz);
             db.SaveChanges();
         }
 
-        internal void DodajOdpowiedz(Worksheet sht, bool zbieramyDane)
+        internal static void DodajOdpowiedz(Worksheet sht, bool zbieramyDane)
         {
-            Nazwy nazwy = new Nazwy();
             Workbook wbk = (Workbook)sht.Parent;
             Odpowiedz odpowiedz = new Odpowiedz
             {
-                Arkusz = ZnajdzIDArkusza(sht, nazwy),
+                Arkusz = ZnajdzIDArkusza(sht),
                 NazwaPliku = wbk.Name,
                 Rodzaj = (int)Rodzaje.Uzytkownik,
                 Uzytkownik = Uzytkownicy.UzytkownikID,
@@ -61,7 +61,7 @@ namespace RODO.Logika
             db.SaveChanges();
         }
 
-        internal void DodajLogi(IList<LogiPomoc> logi)
+        internal static void DodajLogi(IList<LogiPomoc> logi)
         {
             IList<ArkuszePomoc> arkusze = new List<ArkuszePomoc>();
             foreach (LogiPomoc l in logi)
@@ -94,17 +94,44 @@ namespace RODO.Logika
             }
         }
 
-        internal void ZmienZbieranieDanych(Worksheet sht, bool zbieramyDane, string NowyKlucz)
+        internal static void ZmienZbieranieDanych(Worksheet sht, bool zbieramyDane, string NowyKlucz)
         {
-            string klucz = ZnajdzNazwe(sht);
+            string klucz = Nazwy.ZnajdzNazwe(sht);
             Arkusz arkusz = db.Arkusze.Where(x=> x.Klucz == klucz).FirstOrDefault();
             AktualizujArkusz(arkusz, zbieramyDane, NowyKlucz);
         }
 
-        internal void ZmienZbieranieDanych(string staryKlucz, bool zbieramyDane, string nowyKlucz)
+        internal static void ZmienZbieranieDanych(string staryKlucz, bool zbieramyDane, string nowyKlucz)
         {
             Arkusz arkusz = db.Arkusze.Where(x => x.Klucz == staryKlucz).FirstOrDefault();
             AktualizujArkusz(arkusz, zbieramyDane, nowyKlucz);
+        }
+
+        internal static void UstawBiezacaNazwe(Worksheet sht)
+        {
+            int idArkusza = ZnajdzIDArkusza(sht);
+            Arkusz arkusz = db.Arkusze.Find(idArkusza);
+            if (arkusz != null)
+            {
+                arkusz.BiezacaNazwaArkusza = sht.Name;
+                db.SaveChangesAsync();
+            }
+            
+        }
+
+        internal static void UstawBiezacaNazwe(Workbook wbk)
+        {
+            int idPliku = ZnajdzIDPliku(wbk);
+            Plik plik = db.Pliki.Find(idPliku);
+            if (plik != null)
+            {
+                plik.BiezacaNazwaPliku = wbk.Name;
+                db.SaveChangesAsync();
+            }
+            foreach (Worksheet sht in wbk.Worksheets)
+            {
+                UstawBiezacaNazwe(sht);
+            }
         }
 
         public static bool CzyJestPolaczenie()
@@ -113,9 +140,18 @@ namespace RODO.Logika
             return !db.Database.Exists();
         }
 
+        public static int ZnajdzIDArkusza(Worksheet sht)
+        {
+            string klucz = Nazwy.ZnajdzNazwe(sht);
+            Arkusz arkusz = db.Arkusze.Where(x => x.Klucz == klucz).FirstOrDefault();
+            return arkusz.ID;
+        }
+
         #region Wewnętrzne metody
 
-        private void AktualizujArkusz(Arkusz arkusz, bool zbieramyDane, string nowyKlucz)
+
+
+        private static void AktualizujArkusz(Arkusz arkusz, bool zbieramyDane, string nowyKlucz)
         {
             if (arkusz != null)
             {
@@ -127,21 +163,16 @@ namespace RODO.Logika
         }
 
 
-        private int ZnajdzIDPliku(Workbook wbk, Nazwy nazwy)
+        private static int ZnajdzIDPliku(Workbook wbk)
         {
-            string klucz = nazwy.ZnajdzNazwe(wbk);
+            string klucz = Nazwy.ZnajdzNazwe(wbk);
             Plik plik = db.Pliki.Where(x => x.Klucz == klucz).FirstOrDefault();
             return plik.ID;
         }
 
-        private int ZnajdzIDArkusza(Worksheet sht, Nazwy nazwy)
-        {
-            string klucz = nazwy.ZnajdzNazwe(sht);
-            Arkusz arkusz = db.Arkusze.Where(x => x.Klucz == klucz).FirstOrDefault();
-            return arkusz.ID;
-        }
+        
 
-        private int ZnajdzIDArkusza(ref IList<ArkuszePomoc> arkusze, string klucz)
+        private static int ZnajdzIDArkusza(ref IList<ArkuszePomoc> arkusze, string klucz)
         {
             ArkuszePomoc arkuszPomoc = arkusze.Where(x => x.KluczArkusza == klucz).FirstOrDefault();
             if (arkuszPomoc != null)

@@ -16,7 +16,7 @@ namespace RODO.Models
     }
 
     [Table("ZbieramyDaneAdmin")]
-    class ZbieramyDaneAdmin
+    public class ZbieramyDaneAdmin
     {
         [Key]
         public int ID { get; set; }

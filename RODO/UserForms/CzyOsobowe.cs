@@ -133,10 +133,8 @@ namespace RODO.UserForms
 
         private void UstawOdpowiedz(bool zbieramyDane)
         {
-            Nazwy nazwy = new Nazwy();
-            Baza baza = new Baza();
-            nazwy.Dodaj(Arkusz, zbieramyDane);
-            baza.DodajOdpowiedz(Arkusz, zbieramyDane);
+            Nazwy.Dodaj(Arkusz, zbieramyDane);
+            Baza.DodajOdpowiedz(Arkusz, zbieramyDane);
             this.Close();
         }
 
